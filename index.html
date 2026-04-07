@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Foremind Growth Acceleration Plan | Neighbourhood Co.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#050507;--surface:#0d0d12;--card:#12121a;--border:#1a1a2e;
+  --text:#e8e8ed;--muted:#8888a0;--accent:#3b82f6;--accent2:#06b6d4;
+  --gold:#f59e0b;--green:#10b981;--red:#ef4444;--purple:#8b5cf6;
+  --gradient:linear-gradient(135deg,#3b82f6,#06b6d4);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+a{color:var(--accent2);text-decoration:none}
+
+/* Navigation */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1rem 2rem;display:flex;justify-content:space-between;align-items:center;backdrop-filter:blur(20px);background:rgba(5,5,7,.8);border-bottom:1px solid var(--border);transition:all .3s}
+.nav-logo{font-weight:700;font-size:1rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.nav-logo span{color:var(--text)}
+.nav-links{display:flex;gap:1.5rem}
+.nav-links a{color:var(--muted);font-size:.8rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+
+/* Sections */
+section{min-height:100vh;padding:8rem 2rem 4rem;max-width:1200px;margin:0 auto}
+.section-label{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent2);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.section-label::before{content:'';width:2rem;height:1px;background:var(--accent2)}
+h1{font-size:clamp(2.5rem,6vw,4.5rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:1.5rem}
+h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:700;line-height:1.15;letter-spacing:-.02em;margin-bottom:1rem}
+h3{font-size:1.3rem;font-weight:600;margin-bottom:.75rem}
+.gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gold{color:var(--gold)}
+.green{color:var(--green)}
+.red{color:var(--red)}
+.muted{color:var(--muted)}
+p.lead{font-size:1.15rem;color:var(--muted);max-width:600px;line-height:1.7}
+
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:6rem;position:relative}
+.hero::after{content:'';position:absolute;top:0;right:-20%;width:60%;height:60%;background:radial-gradient(ellipse,rgba(59,130,246,.08),transparent 70%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.5rem 1rem;border:1px solid var(--border);border-radius:2rem;font-size:.8rem;color:var(--muted);margin-bottom:2rem;width:fit-content}
+.hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:3rem}
+.hero-metric{padding:1.5rem;border:1px solid var(--border);border-radius:1rem;background:var(--surface)}
+.hero-metric .number{font-size:2.5rem;font-weight:800;letter-spacing:-.02em}
+.hero-metric .label{font-size:.8rem;color:var(--muted);margin-top:.25rem}
+
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem;margin:2rem 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1.75rem;transition:all .3s;position:relative;overflow:hidden}
+.card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-2px)}
+.card .card-value{font-size:2rem;font-weight:800;margin:.5rem 0}
+.card .card-label{font-size:.85rem;color:var(--muted)}
+.card .card-sub{font-size:.75rem;color:var(--muted);margin-top:.5rem}
+.card-accent{border-left:3px solid var(--accent)}
+.card-gold{border-left:3px solid var(--gold)}
+.card-green{border-left:3px solid var(--green)}
+.card-red{border-left:3px solid var(--red)}
+
+/* Stats bar */
+.stat-bar{display:flex;gap:0;border-radius:.5rem;overflow:hidden;height:2.5rem;margin:1rem 0}
+.stat-bar .segment{display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:#fff;transition:all .5s}
+
+/* Tables */
+.data-table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.85rem}
+.data-table th{text-align:left;padding:.75rem 1rem;font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border)}
+.data-table td{padding:.75rem 1rem;border-bottom:1px solid rgba(26,26,46,.5)}
+.data-table tr:hover td{background:rgba(59,130,246,.03)}
+.data-table .right{text-align:right}
+.tag{display:inline-block;padding:.15rem .5rem;border-radius:.25rem;font-size:.7rem;font-weight:600}
+.tag-green{background:rgba(16,185,129,.15);color:var(--green)}
+.tag-gold{background:rgba(245,158,11,.15);color:var(--gold)}
+.tag-red{background:rgba(239,68,68,.15);color:var(--red)}
+.tag-blue{background:rgba(59,130,246,.15);color:var(--accent)}
+
+/* Charts */
+.chart-container{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin:1.5rem 0}
+.chart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+.chart-wrap{position:relative;height:300px}
+
+/* Timeline */
+.timeline{position:relative;padding-left:3rem;margin:2rem 0}
+.timeline::before{content:'';position:absolute;left:.75rem;top:0;bottom:0;width:2px;background:var(--border)}
+.timeline-item{position:relative;margin-bottom:2rem;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:1rem}
+.timeline-item::before{content:'';position:absolute;left:-2.55rem;top:1.75rem;width:12px;height:12px;border-radius:50%;border:2px solid var(--accent);background:var(--bg)}
+.timeline-item.active::before{background:var(--accent);box-shadow:0 0 10px rgba(59,130,246,.5)}
+.timeline-item .week{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:.5rem}
+
+/* Funnel */
+.funnel{display:flex;flex-direction:column;align-items:center;gap:.5rem;margin:2rem 0}
+.funnel-stage{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-radius:.75rem;transition:all .3s;cursor:default}
+.funnel-stage:hover{transform:scale(1.02)}
+.funnel-stage .stage-name{font-weight:600;font-size:.9rem}
+.funnel-stage .stage-value{font-weight:700;font-size:1.1rem}
+.funnel-stage .stage-count{font-size:.8rem;color:var(--muted)}
+
+/* CTA */
+.cta-section{text-align:center;padding:6rem 2rem;background:linear-gradient(180deg,var(--bg),var(--surface));border-radius:2rem;margin:4rem 0}
+.cta-section h2{margin-bottom:1rem}
+
+/* Two column */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin:2rem 0}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}.nav-links{display:none}}
+
+/* Big number */
+.big-num{font-size:clamp(3rem,8vw,6rem);font-weight:900;letter-spacing:-.04em;line-height:1}
+
+/* Divider */
+.divider{width:100%;height:1px;background:var(--border);margin:4rem 0}
+
+/* Scroll animations */
+.reveal{opacity:0;transform:translateY(30px);transition:all .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* Counter animation */
+.counter{display:inline-block}
+
+/* Comparison */
+.comparison{display:grid;grid-template-columns:1fr auto 1fr;gap:2rem;align-items:center;margin:2rem 0}
+.comparison .vs{font-size:1.5rem;font-weight:800;color:var(--muted);text-align:center}
+.comp-card{padding:2rem;border-radius:1rem;text-align:center}
+.comp-card.old{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.2)}
+.comp-card.new{background:rgba(16,185,129,.05);border:1px solid rgba(16,185,129,.2)}
+@media(max-width:768px){.comparison{grid-template-columns:1fr;text-align:center}}
+
+/* Progress ring */
+.ring-container{display:flex;gap:2rem;flex-wrap:wrap;justify-content:center;margin:2rem 0}
+.ring-item{text-align:center}
+.ring-item svg{width:120px;height:120px;transform:rotate(-90deg)}
+.ring-item circle{fill:none;stroke-width:6}
+.ring-item .bg{stroke:var(--border)}
+.ring-item .fg{stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
+.ring-label{margin-top:.5rem;font-size:.8rem;color:var(--muted)}
+.ring-value{font-size:1.5rem;font-weight:800}
+
+/* Horizon cards */
+.horizon{border:1px solid var(--border);border-radius:1rem;padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}
+.horizon::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.horizon.h1::before{background:var(--green)}
+.horizon.h2::before{background:var(--gold)}
+.horizon.h3::before{background:var(--accent)}
+.horizon .h-tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1rem}
+.horizon.h1 .h-tag{color:var(--green)}
+.horizon.h2 .h-tag{color:var(--gold)}
+.horizon.h3 .h-tag{color:var(--accent)}
+.horizon ul{list-style:none;margin-top:1rem}
+.horizon li{padding:.5rem 0;padding-left:1.5rem;position:relative;font-size:.9rem;color:var(--muted)}
+.horizon li::before{content:'';position:absolute;left:0;top:.85rem;width:6px;height:6px;border-radius:50%}
+.horizon.h1 li::before{background:var(--green)}
+.horizon.h2 li::before{background:var(--gold)}
+.horizon.h3 li::before{background:var(--accent)}
+
+/* Alert card */
+.alert{padding:1.5rem;border-radius:1rem;margin:1.5rem 0;display:flex;gap:1rem;align-items:flex-start}
+.alert-red{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2)}
+.alert-gold{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.alert-icon{font-size:1.5rem;flex-shrink:0}
+
+/* Footer */
+footer{text-align:center;padding:3rem 2rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border)}
+
+/* Pill tabs */
+.tabs{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:.5rem 1rem;border:1px solid var(--border);border-radius:2rem;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--muted)}
+.tab.active,.tab:hover{border-color:var(--accent);color:var(--text);background:rgba(59,130,246,.1)}
+
+/* Math block */
+.math-block{background:var(--surface);border:1px solid var(--border);border-radius:1rem;padding:2rem;margin:1.5rem 0;font-family:'Inter',monospace}
+.math-row{display:flex;justify-content:space-between;align-items:center;padding:.75rem 0;border-bottom:1px solid rgba(26,26,46,.5)}
+.math-row:last-child{border-bottom:none;font-weight:700;font-size:1.1rem;padding-top:1rem;border-top:2px solid var(--accent)}
+.math-source{color:var(--muted);font-size:.9rem}
+.math-value{font-weight:700;font-size:1.1rem}
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-logo">Neighbourhood <span>Co.</span></div>
+  <div class="nav-links">
+    <a href="#discovery">Discovery</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#strategy">Strategy</a>
+    <a href="#math">The Math</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#cost">ROI</a>
+  </div>
+</nav>
+
+<!-- ============================================ -->
+<!-- HERO -->
+<!-- ============================================ -->
+<section class="hero">
+  <div class="hero-tag"><span class="dot"></span> Prepared for Joel Anderson, CEO</div>
+  <h1>From 38 to 80.<br><span class="gradient-text">In 60 days.</span></h1>
+  <p class="lead">Your board sees a cost to cut. We see $670K in untapped pipeline sitting in your own database. This plan shows exactly where it is, how we activate it, and why cancelling now would be the most expensive decision Foremind makes this quarter.</p>
+
+  <div class="hero-metrics">
+    <div class="hero-metric">
+      <div class="number gold"><span class="counter" data-target="38">0</span></div>
+      <div class="label">Quote requests last month</div>
+    </div>
+    <div class="hero-metric">
+      <div class="number gradient-text"><span class="counter" data-target="80">0</span></div>
+      <div class="label">Monthly target for $100K ARR</div>
+    </div>
+    <div class="hero-metric">
+      <div class="number green">$<span class="counter" data-target="670" data-suffix="K">0</span></div>
+      <div class="label">Untapped pipeline in your HubSpot</div>
+    </div>
+    <div class="hero-metric">
+      <div class="number" style="color:var(--accent2)"><span class="counter" data-target="60">0</span></div>
+      <div class="label">Days to prove it</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- THE DISCOVERY -->
+<!-- ============================================ -->
+<section id="discovery">
+  <div class="reveal">
+    <div class="section-label">What we found</div>
+    <h2>Your database is a goldmine.<br>Nobody's mining it.</h2>
+    <p class="lead">We audited every contact, deal, workflow, and automation in your HubSpot. Here's what's sitting untouched.</p>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card card-gold">
+      <div class="card-label">Contacts in Database</div>
+      <div class="card-value"><span class="counter" data-target="7541">0</span></div>
+      <div class="card-sub">Leads, MQLs, customers, and prospects</div>
+    </div>
+    <div class="card card-red">
+      <div class="card-label">Contacts Never Touched</div>
+      <div class="card-value"><span class="counter" data-target="6512">0</span></div>
+      <div class="card-sub">No lead status assigned. No sequence. No outreach.</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-label">Marketing Qualified Leads</div>
+      <div class="card-value"><span class="counter" data-target="4196">0</span></div>
+      <div class="card-sub">Only 11 converted to SQL. That's 0.26%.</div>
+    </div>
+    <div class="card card-green">
+      <div class="card-label">Open Deals in Pipeline</div>
+      <div class="card-value"><span class="counter" data-target="417">0</span></div>
+      <div class="card-sub">Worth over $1.2M across sales + customer success</div>
+    </div>
+  </div>
+
+  <!-- Contact lifecycle funnel -->
+  <div class="chart-container reveal">
+    <div class="chart-header">
+      <h3>Contact Lifecycle Funnel</h3>
+      <span class="muted" style="font-size:.8rem">Where your 7,541 contacts actually sit</span>
+    </div>
+    <div class="funnel">
+      <div class="funnel-stage" style="width:100%;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15)">
+        <span class="stage-name">No Status Assigned</span>
+        <span class="stage-count">6,512 contacts</span>
+        <span class="stage-value red">86.4%</span>
+      </div>
+      <div class="funnel-stage" style="width:85%;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.15)">
+        <span class="stage-name">Leads</span>
+        <span class="stage-count">1,665 contacts</span>
+        <span class="stage-value">22.1%</span>
+      </div>
+      <div class="funnel-stage" style="width:70%;background:rgba(6,182,212,.08);border:1px solid rgba(6,182,212,.15)">
+        <span class="stage-name">MQLs</span>
+        <span class="stage-count">4,196 contacts</span>
+        <span class="stage-value gold">55.6%</span>
+      </div>
+      <div class="funnel-stage" style="width:20%;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15)">
+        <span class="stage-name">Opportunities</span>
+        <span class="stage-count">810 contacts</span>
+        <span class="stage-value">10.7%</span>
+      </div>
+      <div class="funnel-stage" style="width:18%;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15)">
+        <span class="stage-name">Customers</span>
+        <span class="stage-count">840 contacts</span>
+        <span class="stage-value green">11.1%</span>
+      </div>
+      <div class="funnel-stage" style="width:5%;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15)">
+        <span class="stage-name">SQLs</span>
+        <span class="stage-count">11 contacts</span>
+        <span class="stage-value red">0.15%</span>
+      </div>
+    </div>
+    <p style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:1rem">The bottleneck is clear: 4,196 MQLs are stalling before they reach sales. Fix this and the quotes follow.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- PIPELINE ANALYSIS -->
+<!-- ============================================ -->
+<section id="pipeline">
+  <div class="reveal">
+    <div class="section-label">Pipeline Deep Dive</div>
+    <h2>$670K in value.<br>Waiting to be activated.</h2>
+  </div>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>Sales Pipeline</h3>
+      <table class="data-table">
+        <thead><tr><th>Stage</th><th class="right">Deals</th><th class="right">Value</th></tr></thead>
+        <tbody>
+          <tr><td>Demo Booked</td><td class="right">1</td><td class="right">$9,600</td></tr>
+          <tr><td>Demo Completed</td><td class="right">1</td><td class="right">$4,200</td></tr>
+          <tr><td>Proposal Sent <span class="tag tag-red">35 stale</span></td><td class="right">35</td><td class="right gold">$211,100</td></tr>
+          <tr><td>Internal Review</td><td class="right">6</td><td class="right">$57,000</td></tr>
+          <tr><td>Pending Board Approval</td><td class="right">11</td><td class="right">$76,800</td></tr>
+          <tr><td>Contract Sent</td><td class="right">5</td><td class="right">$21,600</td></tr>
+          <tr><td>Circle Back <span class="tag tag-gold">re-engage</span></td><td class="right">7</td><td class="right">$18,800</td></tr>
+          <tr><td>Future - Low Intent <span class="tag tag-gold">re-engage</span></td><td class="right">21</td><td class="right">$157,650</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>Customer Success Pipeline</h3>
+      <table class="data-table">
+        <thead><tr><th>Stage</th><th class="right">Deals</th><th class="right">Value</th></tr></thead>
+        <tbody>
+          <tr><td>0-3 Months</td><td class="right">1</td><td class="right">-</td></tr>
+          <tr><td>3-6 Months</td><td class="right">3</td><td class="right">$19,600</td></tr>
+          <tr><td>6-9 Months</td><td class="right">30</td><td class="right">$156,600</td></tr>
+          <tr><td>9-12 Months <span class="tag tag-gold">renewal risk</span></td><td class="right">50</td><td class="right gold">$246,254</td></tr>
+          <tr><td>Renewal Outcome</td><td class="right">84</td><td class="right">$359,560</td></tr>
+        </tbody>
+      </table>
+      <div class="alert alert-gold" style="margin-top:1rem">
+        <div class="alert-icon">&#9888;</div>
+        <div>
+          <strong>$246K in renewals approaching</strong><br>
+          <span class="muted" style="font-size:.85rem">50 clients hitting their renewal window in the next 90 days. These need proactive outreach now.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win/Loss Chart -->
+  <div class="chart-container reveal">
+    <div class="chart-header">
+      <h3>Won vs Lost Revenue (2025 - Present)</h3>
+      <span class="muted" style="font-size:.8rem">The trend that triggered the board review</span>
+    </div>
+    <div class="chart-wrap"><canvas id="winLossChart"></canvas></div>
+  </div>
+
+  <!-- The untapped pool -->
+  <div class="reveal">
+    <h3 style="margin-top:2rem">The Re-Engagement Pool: $239K</h3>
+    <p class="muted" style="margin-bottom:1rem;font-size:.9rem">36 deals in Circle Back + Future Low Intent. These companies already showed buying intent. They just need the right trigger at the right time.</p>
+    <table class="data-table">
+      <thead><tr><th>Category</th><th class="right">Deals</th><th class="right">Total Value</th><th class="right">Avg Deal</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Circle Back</td><td class="right">7</td><td class="right gold">$18,800</td><td class="right">$2,686</td><td><span class="tag tag-green">Ready to re-engage</span></td></tr>
+        <tr><td>Future - Low Intent</td><td class="right">21</td><td class="right gold">$157,650</td><td class="right">$7,507</td><td><span class="tag tag-gold">Nurture then re-engage</span></td></tr>
+        <tr><td>Unassigned Deals</td><td class="right">37</td><td class="right gold">$221,900</td><td class="right">$5,997</td><td><span class="tag tag-red">No owner</span></td></tr>
+        <tr><td>Stale Proposals</td><td class="right">35</td><td class="right gold">$211,100</td><td class="right">$6,031</td><td><span class="tag tag-red">Needs follow-up</span></td></tr>
+        <tr style="font-weight:700;border-top:2px solid var(--accent)"><td>Total Untapped</td><td class="right">100</td><td class="right" style="color:var(--gold);font-size:1.1rem">$609,450</td><td class="right">-</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Owner performance -->
+  <div class="chart-container reveal">
+    <div class="chart-header">
+      <h3>Sales Team Performance (Jul 2025 - Present)</h3>
+    </div>
+    <div class="card-grid" style="margin:0">
+      <div class="card" style="border:none;background:transparent;padding:1rem">
+        <div class="card-label">Dylan Chau</div>
+        <div style="display:flex;gap:1rem;align-items:baseline;margin:.5rem 0">
+          <span style="font-size:1.8rem;font-weight:800">26%</span>
+          <span class="muted" style="font-size:.85rem">win rate</span>
+        </div>
+        <div style="font-size:.85rem">18 won ($133.8K) | 52 lost ($346.8K)</div>
+        <div class="tag tag-red" style="margin-top:.5rem">Departing - 16 open deals ($117K) at risk</div>
+      </div>
+      <div class="card" style="border:none;background:transparent;padding:1rem">
+        <div class="card-label">Zoya Khan</div>
+        <div style="display:flex;gap:1rem;align-items:baseline;margin:.5rem 0">
+          <span style="font-size:1.8rem;font-weight:800;color:var(--green)">93%</span>
+          <span class="muted" style="font-size:.85rem">win rate</span>
+        </div>
+        <div style="font-size:.85rem">13 won ($30.3K) | 1 lost ($2.4K)</div>
+        <div class="tag tag-green" style="margin-top:.5rem">Handles &lt;25 employee companies</div>
+      </div>
+      <div class="card" style="border:none;background:transparent;padding:1rem">
+        <div class="card-label">Conal Meehan</div>
+        <div style="display:flex;gap:1rem;align-items:baseline;margin:.5rem 0">
+          <span style="font-size:1.8rem;font-weight:800;color:var(--gold)">52</span>
+          <span class="muted" style="font-size:.85rem">open deals</span>
+        </div>
+        <div style="font-size:.85rem">$272K in pipeline | 0 closed yet</div>
+        <div class="tag tag-gold" style="margin-top:.5rem">New - pipeline building</div>
+      </div>
+    </div>
+    <div class="alert alert-red" style="margin-top:1rem">
+      <div class="alert-icon">&#9888;</div>
+      <div>
+        <strong>Dylan's departure creates an immediate gap.</strong><br>
+        <span class="muted" style="font-size:.85rem">His automated sequence (12-day outreach for 25+ employee companies) routes to his meeting link. 16 open deals ($117K) need reassignment. 37 additional deals ($221K) have no owner at all. We need your direction on how to redistribute before he exits.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loss reasons -->
+  <div class="reveal" style="margin-top:2rem">
+    <h3>Why Deals Are Lost</h3>
+    <p class="muted" style="font-size:.9rem;margin-bottom:1rem">315 deals lost since Jan 2025, totalling $1.48M in value.</p>
+    <div class="stat-bar" style="height:3rem">
+      <div class="segment" style="flex:54;background:var(--red)" title="No reason logged">No reason: 54%</div>
+      <div class="segment" style="flex:4;background:var(--gold)" title="Went cold">Cold</div>
+      <div class="segment" style="flex:3;background:var(--accent)" title="Bad timing">Timing</div>
+      <div class="segment" style="flex:2;background:var(--purple)" title="Not responding">No response</div>
+      <div class="segment" style="flex:37;background:var(--border);color:var(--muted)" title="Other/unknown">Other</div>
+    </div>
+    <p style="color:var(--red);font-size:.85rem;margin-top:.5rem"><strong>54% of lost deals have no reason recorded.</strong> You can't fix what you can't measure. Making loss reasons mandatory is an immediate action item.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- THE STRATEGY -->
+<!-- ============================================ -->
+<section id="strategy">
+  <div class="reveal">
+    <div class="section-label">The Strategy</div>
+    <h2>Three horizons.<br><span class="gradient-text">One integrated partner.</span></h2>
+    <p class="lead">Not five agencies. Not a junior hire. One team that owns the full funnel -- from the first ad impression to the signed contract.</p>
+  </div>
+
+  <div class="horizon h1 reveal">
+    <div class="h-tag">Horizon 1 -- Quick Wins (Week 1-2)</div>
+    <h3>Activate what's already there</h3>
+    <p class="muted" style="font-size:.9rem">Before spending a dollar on ads, we work the pipeline sitting in your database. These are people who already showed intent.</p>
+    <ul>
+      <li><strong>Work 257 NEW leads</strong> -- assign, sequence, follow up. These are warm contacts with no outreach.</li>
+      <li><strong>Chase 35 stale proposals ($211K)</strong> -- automated follow-up sequence + manual outreach for top 10 by value</li>
+      <li><strong>Reassign 37 orphaned deals ($221K)</strong> -- every deal gets an owner and a next action within 48 hours</li>
+      <li><strong>Launch re-engagement campaign</strong> -- 36 Circle Back + Future deals ($239K) get a personalized outreach sequence</li>
+      <li><strong>Fix automated sequences</strong> -- update Dylan's meeting link routing before his departure</li>
+      <li><strong>Mandate loss reasons</strong> -- make it required on every deal close. Start measuring today.</li>
+      <li><strong>Build Joel's marketing dashboard</strong> -- pipeline, funnel, sources, and the $100K ARR target front and centre</li>
+    </ul>
+    <div style="margin-top:1rem;padding:1rem;background:rgba(16,185,129,.05);border-radius:.5rem">
+      <span class="green" style="font-weight:700">Expected impact:</span> <span style="font-size:.9rem">10-15 additional quote requests from existing pipeline in the first 14 days</span>
+    </div>
+  </div>
+
+  <div class="horizon h2 reveal">
+    <div class="h-tag">Horizon 2 -- Build the Engine (Week 3-6)</div>
+    <h3>Turn the database into a pipeline machine</h3>
+    <p class="muted" style="font-size:.9rem">AI-powered nurturing, segmented by industry and company size, working 24/7 to move MQLs toward quote requests.</p>
+    <ul>
+      <li><strong>AI-generated nurture sequences</strong> -- industry-specific content for construction, healthcare, education, hospitality, professional services</li>
+      <li><strong>Company size personalization</strong> -- different messaging for &lt;25, 25-100, and 100+ employees</li>
+      <li><strong>Activate 4,196 MQLs</strong> -- segmented drip campaigns pushing toward quote requests</li>
+      <li><strong>Triage 6,512 unstatused contacts</strong> -- AI classification into hot/warm/cold, route accordingly</li>
+      <li><strong>Add industry dropdown to quote form</strong> -- enables smarter follow-up and better data</li>
+      <li><strong>CRO on landing pages</strong> -- A/B test your quote request form, reduce friction, increase conversion rate</li>
+      <li><strong>Tune lead scoring thresholds</strong> -- currently 0 contacts above score of 20, needs recalibration</li>
+      <li><strong>Deploy HubSpot customer agent on website</strong> -- replace the current chatbot with 24/7 AI lead capture</li>
+    </ul>
+    <div style="margin-top:1rem;padding:1rem;background:rgba(245,158,11,.05);border-radius:.5rem">
+      <span class="gold" style="font-weight:700">Expected impact:</span> <span style="font-size:.9rem">15-25 additional quote requests/month from MQL activation + CRO uplift</span>
+    </div>
+  </div>
+
+  <div class="horizon h3 reveal">
+    <div class="h-tag">Horizon 3 -- Scale (Week 7-12)</div>
+    <h3>Paid acquisition with full attribution</h3>
+    <p class="muted" style="font-size:.9rem">Now that tracking is fixed and the funnel converts, layer paid channels on top with clear ROI measurement.</p>
+    <ul>
+      <li><strong>Meta TOFU campaigns</strong> -- target the 60% of SMEs who aren't pain-aware. Psychosocial hazard legislation is the hook.</li>
+      <li><strong>Uncap Google/Bing campaigns</strong> -- your search campaigns are currently capped. With conversion tracking in place, scale what converts.</li>
+      <li><strong>LinkedIn targeted outreach</strong> -- decision-maker campaigns for HR Directors, WHS Managers, COOs in target industries</li>
+      <li><strong>SEO for compliance content</strong> -- your psychosocial hazard guides are natural ranking targets. Build the organic channel.</li>
+      <li><strong>Full attribution model</strong> -- every lead source tracked, every cost per lead measured, every channel justified</li>
+      <li><strong>Renewal protection program</strong> -- proactive outreach to 50 accounts ($246K) approaching renewal</li>
+    </ul>
+    <div style="margin-top:1rem;padding:1rem;background:rgba(59,130,246,.05);border-radius:.5rem">
+      <span style="color:var(--accent);font-weight:700">Expected impact:</span> <span style="font-size:.9rem">15-20 additional quote requests/month from new audience acquisition</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- THE MATH -->
+<!-- ============================================ -->
+<section id="math">
+  <div class="reveal">
+    <div class="section-label">The Math</div>
+    <h2>Where 42 extra quotes come from.</h2>
+    <p class="lead">Joel, you gave us your numbers. Here's how we reverse-engineer your target using your own data.</p>
+  </div>
+
+  <div class="two-col reveal">
+    <div>
+      <h3>Joel's Framework</h3>
+      <div class="math-block">
+        <div class="math-row"><span class="math-source">Target monthly ARR</span><span class="math-value gold">$100,000</span></div>
+        <div class="math-row"><span class="math-source">Average Contract Value</span><span class="math-value">~$5,000</span></div>
+        <div class="math-row"><span class="math-source">Deals needed per month</span><span class="math-value">20</span></div>
+        <div class="math-row"><span class="math-source">Quote-to-close rate</span><span class="math-value">25%</span></div>
+        <div class="math-row"><span class="math-source">Quote requests needed</span><span class="math-value gold">80/month</span></div>
+        <div class="math-row"><span class="math-source">Current quote requests</span><span class="math-value red">38/month</span></div>
+        <div class="math-row"><span class="math-source">The gap</span><span class="math-value" style="color:var(--accent2)">42/month</span></div>
+      </div>
+    </div>
+    <div>
+      <h3>How We Fill the Gap</h3>
+      <div class="math-block">
+        <div class="math-row"><span class="math-source">Stale proposals re-engaged (35 deals)</span><span class="math-value green">+5</span></div>
+        <div class="math-row"><span class="math-source">Circle Back + Future deals (36 deals)</span><span class="math-value green">+4</span></div>
+        <div class="math-row"><span class="math-source">NEW leads worked (257 contacts)</span><span class="math-value green">+8</span></div>
+        <div class="math-row"><span class="math-source">MQL nurture activation (4,196 contacts)</span><span class="math-value green">+10</span></div>
+        <div class="math-row"><span class="math-source">CRO uplift on existing traffic (+10%)</span><span class="math-value green">+4</span></div>
+        <div class="math-row"><span class="math-source">Meta TOFU + Google/Bing scale</span><span class="math-value green">+15</span></div>
+        <div class="math-row"><span class="math-source">Projected additional quotes</span><span class="math-value" style="color:var(--accent2)">+46/month</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" style="text-align:center;margin-top:2rem">
+    <p style="font-size:1.1rem;color:var(--muted)">Conservative projection at 60 days:</p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:2rem;margin:1.5rem 0;flex-wrap:wrap">
+      <div>
+        <div style="font-size:3rem;font-weight:900;color:var(--red)">38</div>
+        <div class="muted" style="font-size:.8rem">Current</div>
+      </div>
+      <div style="font-size:2rem;color:var(--muted)">&#8594;</div>
+      <div>
+        <div style="font-size:3rem;font-weight:900;color:var(--gold)">55-65</div>
+        <div class="muted" style="font-size:.8rem">At 60 Days</div>
+      </div>
+      <div style="font-size:2rem;color:var(--muted)">&#8594;</div>
+      <div>
+        <div style="font-size:3rem;font-weight:900;color:var(--green)">80+</div>
+        <div class="muted" style="font-size:.8rem">At 90 Days</div>
+      </div>
+    </div>
+    <p class="muted" style="font-size:.85rem">Horizons 1 + 2 (internal pipeline + MQL activation) deliver the first wave.<br>Horizon 3 (paid acquisition) scales to and beyond the target.</p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- TIMELINE -->
+<!-- ============================================ -->
+<section id="timeline">
+  <div class="reveal">
+    <div class="section-label">60-Day Roadmap</div>
+    <h2>Checkpoint by checkpoint.</h2>
+    <p class="lead">No black box. You see what we're doing, what's working, and where we're tracking -- every two weeks.</p>
+  </div>
+
+  <div class="timeline reveal">
+    <div class="timeline-item active">
+      <div class="week">Week 1-2: Activate</div>
+      <h3>Internal Pipeline Blitz</h3>
+      <ul style="list-style:none;font-size:.9rem;color:var(--muted)">
+        <li style="padding:.25rem 0">&#10003; 257 NEW leads assigned and sequenced</li>
+        <li style="padding:.25rem 0">&#10003; 35 stale proposals followed up</li>
+        <li style="padding:.25rem 0">&#10003; 37 orphaned deals assigned owners</li>
+        <li style="padding:.25rem 0">&#10003; Re-engagement campaign live for 36 warm deals</li>
+        <li style="padding:.25rem 0">&#10003; Dylan's automated sequence updated</li>
+        <li style="padding:.25rem 0">&#10003; Marketing dashboard delivered</li>
+        <li style="padding:.25rem 0">&#10003; Loss reasons made mandatory</li>
+      </ul>
+      <div style="margin-top:.75rem;font-size:.85rem"><strong class="green">Checkpoint:</strong> Pipeline activated, dashboard live, first responses rolling in</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="week">Week 3-4: Nurture</div>
+      <h3>MQL Activation + CRO</h3>
+      <ul style="list-style:none;font-size:.9rem;color:var(--muted)">
+        <li style="padding:.25rem 0">&#10003; AI nurture sequences live (5 industry tracks)</li>
+        <li style="padding:.25rem 0">&#10003; 6,512 unstatused contacts triaged and classified</li>
+        <li style="padding:.25rem 0">&#10003; Quote form A/B test running</li>
+        <li style="padding:.25rem 0">&#10003; Lead scoring recalibrated</li>
+        <li style="padding:.25rem 0">&#10003; HubSpot customer agent deployed on website</li>
+      </ul>
+      <div style="margin-top:.75rem;font-size:.85rem"><strong class="gold">Checkpoint:</strong> Nurture engine running, first MQL-to-quote conversions visible</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="week">Week 5-6: Scale Prep</div>
+      <h3>Paid Channel Setup + Optimization</h3>
+      <ul style="list-style:none;font-size:.9rem;color:var(--muted)">
+        <li style="padding:.25rem 0">&#10003; Conversion tracking fully instrumented</li>
+        <li style="padding:.25rem 0">&#10003; Google/Bing campaigns uncapped with attribution</li>
+        <li style="padding:.25rem 0">&#10003; Meta TOFU campaign creative developed</li>
+        <li style="padding:.25rem 0">&#10003; Landing page CRO results in, winner deployed</li>
+        <li style="padding:.25rem 0">&#10003; Renewal protection outreach started ($246K)</li>
+      </ul>
+      <div style="margin-top:.75rem;font-size:.85rem"><strong style="color:var(--accent)">Checkpoint:</strong> Quote request trajectory visible. 60-day review meeting.</div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="week">Week 7-8: Ignite</div>
+      <h3>Full Paid Launch</h3>
+      <ul style="list-style:none;font-size:.9rem;color:var(--muted)">
+        <li style="padding:.25rem 0">&#10003; Meta TOFU campaigns live</li>
+        <li style="padding:.25rem 0">&#10003; LinkedIn decision-maker targeting active</li>
+        <li style="padding:.25rem 0">&#10003; SEO content strategy executing</li>
+        <li style="padding:.25rem 0">&#10003; Full attribution dashboard showing cost per lead by channel</li>
+      </ul>
+      <div style="margin-top:.75rem;font-size:.85rem"><strong class="green">Target:</strong> 80+ quote requests/month achieved</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- CONSOLIDATION -->
+<!-- ============================================ -->
+<section>
+  <div class="reveal">
+    <div class="section-label">Why One Partner</div>
+    <h2>You don't need five agencies.<br><span class="gradient-text">You need one that owns the outcome.</span></h2>
+  </div>
+
+  <div class="comparison reveal">
+    <div class="comp-card old">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);margin-bottom:1rem">Previous Setup</div>
+      <div style="font-size:2.5rem;font-weight:900;color:var(--red)">$50K</div>
+      <div class="muted" style="font-size:.9rem;margin:.5rem 0">spent on Meta ads (2021-2026)</div>
+      <div style="font-size:3rem;font-weight:900;color:var(--red);margin:1rem 0">0</div>
+      <div class="muted" style="font-size:.9rem">tracked conversions</div>
+      <div style="margin-top:1.5rem;font-size:.85rem;color:var(--red)">No conversion tracking. No attribution. No data to learn from.</div>
+    </div>
+    <div class="vs">vs</div>
+    <div class="comp-card new">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:1rem">Neighbourhood Co.</div>
+      <div style="font-size:2.5rem;font-weight:900;color:var(--green)">$670K</div>
+      <div class="muted" style="font-size:.9rem;margin:.5rem 0">in untapped pipeline found in week 1</div>
+      <div style="font-size:3rem;font-weight:900;color:var(--green)">30</div>
+      <div class="muted" style="font-size:.9rem">workflows built and running</div>
+      <div style="margin-top:1.5rem;font-size:.85rem;color:var(--green)">Full attribution. AI-powered nurture. Every dollar tracked.</div>
+    </div>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card">
+      <h3 style="color:var(--accent2)">Consolidation Savings</h3>
+      <p class="muted" style="font-size:.85rem">One partner managing HubSpot, ads, CRO, content, automation, and reporting. No handoff gaps. No finger-pointing. One throat to choke.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent2)">AI-Powered Edge</h3>
+      <p class="muted" style="font-size:.85rem">Industry-specific nurture sequences generated by AI. Personalised by company size and vertical. Updated weekly. This isn't something a junior hire or DIY tool can replicate.</p>
+    </div>
+    <div class="card">
+      <h3 style="color:var(--accent2)">Infrastructure Already Built</h3>
+      <p class="muted" style="font-size:.85rem">30 workflows. Lead scoring. Churn risk monitoring. Renewal automation. Sales pipeline views. PandaDoc integration. Rebuilding this takes 6+ months and $50K+.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- COST OF LEAVING -->
+<!-- ============================================ -->
+<section id="cost">
+  <div class="reveal">
+    <div class="section-label">The Real Cost</div>
+    <h2>What happens if you stop.</h2>
+  </div>
+
+  <div class="chart-container reveal">
+    <div class="chart-header">
+      <h3>Projected Quote Request Trajectory</h3>
+      <span class="muted" style="font-size:.8rem">With NBH vs without</span>
+    </div>
+    <div class="chart-wrap"><canvas id="trajectoryChart"></canvas></div>
+  </div>
+
+  <div class="card-grid reveal">
+    <div class="card card-red">
+      <div class="card-label">Pipeline Goes Dark</div>
+      <div class="card-value red">$609K</div>
+      <div class="card-sub">In active pipeline (proposals, re-engagement, orphaned deals) stops being worked on June 30.</div>
+    </div>
+    <div class="card card-red">
+      <div class="card-label">Renewals Unprotected</div>
+      <div class="card-value red">$246K</div>
+      <div class="card-sub">50 accounts approaching renewal with no proactive outreach or relationship management.</div>
+    </div>
+    <div class="card card-red">
+      <div class="card-label">Infrastructure Rebuild</div>
+      <div class="card-value red">6+ months</div>
+      <div class="card-sub">30 workflows, lead scoring, reporting, sequences, PandaDoc -- all needs rebuilding from scratch.</div>
+    </div>
+    <div class="card card-red">
+      <div class="card-label">Momentum Reset</div>
+      <div class="card-value red">$0 ROI</div>
+      <div class="card-sub">Every dollar invested in the last 6 months compounds forward. Cancelling zeroes out the returns right when they'd start showing.</div>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-top:3rem;text-align:center">
+    <p style="font-size:1.3rem;font-weight:600;max-width:700px;margin:0 auto">The question isn't whether you can afford to keep us.<br><span class="gold">It's whether you can afford to stop -- right when the data shows why things weren't working and exactly how to fix them.</span></p>
+  </div>
+</section>
+
+<!-- ============================================ -->
+<!-- NEXT STEPS -->
+<!-- ============================================ -->
+<section>
+  <div class="cta-section reveal">
+    <div class="section-label" style="justify-content:center">Next Steps</div>
+    <h2>60 days. Full commitment.<br><span class="gradient-text">Let the numbers decide.</span></h2>
+    <p class="lead" style="margin:1.5rem auto;max-width:650px;text-align:center">Review performance at end of May against the trajectory targets. If quote requests aren't trending upward and you don't see the ROI, cancel with 30 days notice. Same June 30 end date. Zero additional risk.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;max-width:900px;margin:2rem auto;text-align:left">
+      <div class="card">
+        <h3>What we need from Joel</h3>
+        <ul style="list-style:none;font-size:.85rem;color:var(--muted)">
+          <li style="padding:.35rem 0">1. Confirm Dylan's pipeline reassignment plan</li>
+          <li style="padding:.35rem 0">2. PandaDoc contract template completion</li>
+          <li style="padding:.35rem 0">3. Confirm sequence routing (Zoya/new rep split)</li>
+          <li style="padding:.35rem 0">4. Ad budget allocation sign-off for Horizon 3</li>
+          <li style="padding:.35rem 0">5. Agreement to 60-day performance review</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What we deliver first</h3>
+        <ul style="list-style:none;font-size:.85rem;color:var(--muted)">
+          <li style="padding:.35rem 0">1. Marketing dashboard -- live within 7 days</li>
+          <li style="padding:.35rem 0">2. Pipeline blitz -- 257 leads worked in week 1</li>
+          <li style="padding:.35rem 0">3. Stale proposal follow-up -- 35 deals chased</li>
+          <li style="padding:.35rem 0">4. Re-engagement campaign -- 36 deals sequenced</li>
+          <li style="padding:.35rem 0">5. Bi-weekly checkpoint reports</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>How we measure success</h3>
+        <ul style="list-style:none;font-size:.85rem;color:var(--muted)">
+          <li style="padding:.35rem 0">1. Quote requests/month (38 &#8594; 55+ by May 31)</li>
+          <li style="padding:.35rem 0">2. Cost per qualified lead (vs previous agency)</li>
+          <li style="padding:.35rem 0">3. Pipeline value created</li>
+          <li style="padding:.35rem 0">4. MQL-to-SQL conversion rate improvement</li>
+          <li style="padding:.35rem 0">5. Deals closed from reactivated pipeline</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Prepared by Neighbourhood Co. for Foremind | April 2026</p>
+  <p style="margin-top:.5rem">All data sourced directly from Foremind HubSpot (Portal 8883233) on April 7, 2026</p>
+</footer>
+
+<script>
+// ============================================
+// SCROLL REVEAL
+// ============================================
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); }});
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// ============================================
+// COUNTER ANIMATION
+// ============================================
+const counters = document.querySelectorAll('.counter');
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting && !entry.target.dataset.counted) {
+      entry.target.dataset.counted = 'true';
+      const target = +entry.target.dataset.target;
+      const suffix = entry.target.dataset.suffix || '';
+      const duration = 1500;
+      const start = performance.now();
+      const animate = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        entry.target.textContent = Math.floor(target * eased).toLocaleString() + suffix;
+        if(progress < 1) requestAnimationFrame(animate);
+      };
+      requestAnimationFrame(animate);
+    }
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+// ============================================
+// WIN/LOSS CHART
+// ============================================
+const ctx1 = document.getElementById('winLossChart').getContext('2d');
+new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ['Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'],
+    datasets: [
+      {
+        label: 'Won',
+        data: [36000,61800,49000,39000,50100,22800,29800,79800,24000,47600,43800,18000],
+        backgroundColor: 'rgba(16,185,129,.7)',
+        borderRadius: 4
+      },
+      {
+        label: 'Lost',
+        data: [0,167600,154800,161600,40800,172800,145200,61800,41000,40800,314600,163300],
+        backgroundColor: 'rgba(239,68,68,.5)',
+        borderRadius: 4
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8888a0', font: { family: 'Inter' }}},
+      tooltip: {
+        callbacks: {
+          label: (ctx) => ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString()
+        }
+      }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(26,26,46,.5)' }, ticks: { color: '#8888a0', font: { family: 'Inter', size: 11 }}},
+      y: { grid: { color: 'rgba(26,26,46,.5)' }, ticks: { color: '#8888a0', font: { family: 'Inter', size: 11 }, callback: v => '$' + (v/1000) + 'K' }}
+    }
+  }
+});
+
+// ============================================
+// TRAJECTORY CHART
+// ============================================
+const ctx2 = document.getElementById('trajectoryChart').getContext('2d');
+new Chart(ctx2, {
+  type: 'line',
+  data: {
+    labels: ['Mar','Apr W2','Apr W4','May W2','May W4','Jun W2','Jun W4','Jul W2','Jul W4'],
+    datasets: [
+      {
+        label: 'With NBH',
+        data: [38,42,48,53,58,65,72,78,84],
+        borderColor: '#10b981',
+        backgroundColor: 'rgba(16,185,129,.1)',
+        fill: true,
+        tension: .4,
+        pointRadius: 5,
+        pointBackgroundColor: '#10b981'
+      },
+      {
+        label: 'Without NBH',
+        data: [38,35,32,28,25,22,20,18,15],
+        borderColor: '#ef4444',
+        backgroundColor: 'rgba(239,68,68,.1)',
+        fill: true,
+        tension: .4,
+        pointRadius: 5,
+        pointBackgroundColor: '#ef4444',
+        borderDash: [5,5]
+      },
+      {
+        label: 'Target',
+        data: [80,80,80,80,80,80,80,80,80],
+        borderColor: 'rgba(245,158,11,.4)',
+        borderDash: [10,5],
+        pointRadius: 0,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color: '#8888a0', font: { family: 'Inter' }}},
+      tooltip: { callbacks: { label: (ctx) => ctx.dataset.label + ': ' + ctx.parsed.y + ' quotes/month' }}
+    },
+    scales: {
+      x: { grid: { color: 'rgba(26,26,46,.5)' }, ticks: { color: '#8888a0', font: { family: 'Inter', size: 11 }}},
+      y: { min: 0, max: 100, grid: { color: 'rgba(26,26,46,.5)' }, ticks: { color: '#8888a0', font: { family: 'Inter', size: 11 }, callback: v => v + '/mo' }}
+    }
+  }
+});
+
+// ============================================
+// SMOOTH NAV
+// ============================================
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
